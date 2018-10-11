@@ -16,9 +16,36 @@ mydb=mysql.connector.connect(host="localhost",user="YOUR USERNAME",passwd="YOUR 
 mycursor=mydb.cursor()
 
 year=datetime.date.today().year
+month1=datetime.date.today().month
+date1=datetime.date.today().day
 ia=IMDb();
 from tkinter import messagebox
 
+def montheq(month):
+      if(month=="Jan"):
+            return 1
+      elif(month=="Feb"):
+            return 2
+      elif(month=="Mar"):
+            return 3
+      elif(month=="Apr"):
+            return 4
+      elif(month=="May"):
+            return 5
+      elif(month=="Jun"):
+            return 6
+      elif(month=="Jul"):
+            return 7
+      elif(month=="Aug"):
+            return 8
+      elif(month=="Sep"):
+            return 9
+      elif(month=="Oct"):
+            return 10
+      elif(month=="Nov"):
+            return 11
+      elif(month=="Dec"):
+            return 12
 
 def mess(a,message):
       final_message=""
@@ -109,9 +136,17 @@ def func():
                                                                         message.append("The next season begins in " + episodeDetails.get('original air date'));
                                                                         flag=1;
                                                        elif(len(episodeDetails.get('original air date'))>4):
-                                                                 if(int(episodeDetails.get('original air date')[7:])>int(year)):
+                                                                 if(int(episodeDetails.get('original air date')[len(episodeDetails.get('original air date'))-4:len(episodeDetails.get('original air date'))])>int(year)):
                                                                         message.append("The episode is streaming on:"+episodeDetails.get('original air date'));
-                                                                        flag=1;       
+                                                                        flag=1;
+                                                                 elif(int(episodeDetails.get('original air date')[len(episodeDetails.get('original air date'))-4:len(episodeDetails.get('original air date'))])==int(year)):
+                                                                            if(int(montheq(episodeDetails.get('original air date')[len(episodeDetails.get('original air date'))-8:len(episodeDetails.get('original air date'))-5]))>int(month1)):
+                                                                                       message.append("The next episode is streaming on:"+episodeDetails.get('original air date'));
+                                                                                       flag=1;
+                                                                            elif(int(montheq(episodeDetails.get('original air date')[len(episodeDetails.get('original air date'))-8:len(episodeDetails.get('original air date'))-5]))==int(month1)):
+                                                                                       if(int(episodeDetails.get('original air date')[:len(episodeDetails.get('original air date'))-9])>int(date1)):
+                                                                                              message.append("The next episode is streaming on:"+episodeDetails.get('original air date'));
+                                                                                              flag=1;   
                                             else:
                                                        message.append('no further details about next episode');
                                                        flag=1;
@@ -159,4 +194,3 @@ Button(root, text='Submit',width=20,bg='brown',command=func,fg='white').place(x=
 
 
 root.mainloop()
-
